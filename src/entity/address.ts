@@ -9,10 +9,6 @@ export default class Address {
     this._number = number;
     this._state = state;
     this._zipCode = zipCode;
-
-    console.log(this._number);
-
-
     this.validate();
   }
 

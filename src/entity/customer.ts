@@ -4,8 +4,8 @@ export default class Customer {
 
   private _id: string;
   private _name = "";
-  private address?: Address = undefined;
   private _active = false;
+  address?: Address = undefined;
 
   constructor(id: string, name: string) {
     this._id = id;
