@@ -23,7 +23,7 @@ describe("Order unit tests", () => {
   it("should calculate total", () => {
     const items = Array.from(
       { length: 3 },
-      (_, id) => new OrderItem(`id-${id}`, `item-${id}`, Number(id) * 10, 2)
+      (_, id) => new OrderItem(`id-${id}`, `item-${id}`, Number(id) * 10,`product-${id}`, 2)
     );
 
     const order = new Order("order-123", "client-123", items);
