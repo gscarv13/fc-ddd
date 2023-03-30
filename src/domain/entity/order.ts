@@ -33,6 +33,11 @@ export default class Order {
   get customerId() { return this._customerId; }
   get items(): OrderItem[] { return this._items }
 
+  addItem(newItem: OrderItem) {
+    this._items = [...this._items, newItem]
+    this.validate()
+  }
+
   total(): number {
     return this._items.reduce((total, item) => total + item.orderItemTotal(), 0);
   }
