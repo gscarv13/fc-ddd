@@ -2,6 +2,7 @@ import OrderRepositoryInterface from "../../domain/repository/order-repository.i
 import Order from "../../domain/entity/order";
 import OrderModel from "../db/sequelize/model/order.model";
 import OrderItemModel from "../db/sequelize/model/order-item.model";
+import OrderItem from "../../domain/entity/order_item";
 
 export default class OrderRepository implements OrderRepositoryInterface {
   async create(entity: Order): Promise<void> {
@@ -87,10 +88,23 @@ export default class OrderRepository implements OrderRepositoryInterface {
   }
 
   async find(id: string): Promise<Order> {
-    throw new Error("");
+    const order = await OrderModel.findOne({ where: {id: id}, include: ['items'] })
+    const items = order.items.map((item) => (
+      new OrderItem(item.id, item.name, item.price, item.product_id, item.quantity)
+    ))
+
+    return new Order(order.id, order.customer_id, items)
   }
 
   async findAll(): Promise<Order[]> {
-    throw new Error("");
+    const entries = await OrderModel.findAll({ include: ['items'] })
+
+    return entries.map(entry => {
+      const items = entry.items.map((item) => (
+        new OrderItem(item.id, item.name, item.price, item.product_id, item.quantity)
+      ))
+        return new Order(entry.id, entry.customer_id, items)
+    }
+    )
   }
 }
