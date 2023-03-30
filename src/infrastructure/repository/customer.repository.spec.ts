@@ -6,6 +6,7 @@ import CustomerRepository from "./customer.repository";
 
 describe('Customer repository test', () => {
   let sequelize: Sequelize;
+  let customerRepository: CustomerRepository;
 
   beforeEach(async() => {
     sequelize = new Sequelize({
@@ -16,6 +17,9 @@ describe('Customer repository test', () => {
     });
 
     sequelize.addModels([CustomerModel])
+
+    customerRepository = new CustomerRepository();
+
     await sequelize.sync()
   })
 
@@ -24,7 +28,6 @@ describe('Customer repository test', () => {
   })
 
   it('should create a customer', async() => {
-    const customerRepository = new CustomerRepository();
     const customer = new Customer("id1", "Kurtz");
     const address = new Address("street1", 1, "asd111", "state1");
 
@@ -46,7 +49,6 @@ describe('Customer repository test', () => {
   })
 
   it('should update customer', async () => {
-    const customerRepository = new CustomerRepository();
     const customer = new Customer("id1", "Kurtz");
     const address = new Address("street1", 1, "asd111", "state1");
 
@@ -73,8 +75,7 @@ describe('Customer repository test', () => {
 
   describe('find', () => {
     it('should find customer', async () => {
-      const customerRepository = new CustomerRepository();
-      const customer = new Customer("id1", "Kurtz");
+        const customer = new Customer("id1", "Kurtz");
       const address = new Address("street1", 1, "asd111", "state1");
   
       customer.address = address;
@@ -107,8 +108,7 @@ describe('Customer repository test', () => {
 
   describe('findAll', () => {
     it('should find all', async() => {
-      const customerRepository = new CustomerRepository();
-      const customer1 = new Customer("id1", "Kurtz");
+        const customer1 = new Customer("id1", "Kurtz");
       const address1 = new Address("street1", 1, "asd111", "state1");
       customer1.address = address1;
       

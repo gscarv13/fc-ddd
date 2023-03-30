@@ -5,6 +5,7 @@ import ProductRepository from "./product.repository";
 
 describe("Product repository test", () => {
   let sequelize: Sequelize;
+  let productRepository: ProductRepository;
 
   beforeEach(async() => {
     sequelize = new Sequelize({
@@ -13,6 +14,8 @@ describe("Product repository test", () => {
       logging: false,
       sync: { force: true }
     });
+
+    productRepository = new ProductRepository();
 
     sequelize.addModels([ProductModel])
     await sequelize.sync()
@@ -23,23 +26,21 @@ describe("Product repository test", () => {
   })
 
   it("should create a product", async() => {
-    const productRepository = new ProductRepository()
-    const product = new Product("1", "Product1", 100)
+    const product = new Product("productid1", "Product1", 100)
 
     await productRepository.create(product)
 
-    const productModel = await ProductModel.findOne({ where: { id: "1" }})
+    const productModel = await ProductModel.findOne({ where: { id: product.id }})
 
     expect(productModel.toJSON()).toStrictEqual({
-      id: "1",
+      id: product.id,
       name: "Product1",
       price: 100
     })
   })
 
   it('should update a product', async () => {
-    const productRepository = new ProductRepository()
-    const product = new Product('id1', 'product-5600', 900)
+    const product = new Product('productid1', 'product-5600', 900)
 
     await productRepository.create(product)
 
@@ -58,8 +59,7 @@ describe("Product repository test", () => {
   })
 
   it( 'should find a product', async () => {
-    const productRepository = new ProductRepository()
-    const product = new Product('asd', 'find-me', 599)
+    const product = new Product('productid1', 'find-me', 599)
 
     await productRepository.create(product)
 
@@ -75,10 +75,9 @@ describe("Product repository test", () => {
   })
 
   it('should find all products', async () => {
-    const productRepository = new ProductRepository()
-    const product1 = new Product('1', 'product1', 100)
-    const product2 = new Product('2', 'product2', 200)
-    const product3 = new Product('3', 'product3', 300)
+    const product1 = new Product('productid1', 'product1', 100)
+    const product2 = new Product('productid2', 'product2', 200)
+    const product3 = new Product('productid3', 'product3', 300)
 
     await productRepository.create(product1)
     await productRepository.create(product2)
